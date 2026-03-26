@@ -721,4 +721,6 @@ end
 
 insert "output.pxt"
 insert "custom.pxt"
+
+insert "EGS_OfS_DXGF_EMS.pxt"
 %>
