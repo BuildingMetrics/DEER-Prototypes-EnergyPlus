@@ -1,0 +1,16 @@
+<%#INITIALIZE
+require "modelkit/energyplus"
+
+parameter "zone_name"
+parameter "main_hvac_type"
+%>
+
+EnergyManagementSystem:InternalVariable,
+  DesignMinOA_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,               !- Name
+  <%= zone_name %> <%= main_hvac_type %> OA Controller,      !- Internal Data Index Key Name
+  Outdoor Air Controller Minimum Mass Flow Rate;  !- Internal Data Type
+
+EnergyManagementSystem:InternalVariable,
+  DesignMaxOA_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,               !- Name
+  <%= zone_name %> <%= main_hvac_type %> OA Controller,      !- Internal Data Index Key Name
+  Outdoor Air Controller Maximum Mass Flow Rate;  !- Internal Data Type

@@ -1,0 +1,16 @@
+<%#INITIALIZE
+require "modelkit/energyplus"
+
+parameter "zone_name"
+%>
+
+Schedule:Constant,
+  <%= zone_name %> Heating Avail Schedule,  !- Name
+  Unit Interval,           !- Schedule Type Limits Name
+  1.0;                     !- Value (1=available, 0=disabled - EMS will override)
+
+EnergyManagementSystem:Actuator,
+  Heating_Avail_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- Name
+  <%= zone_name %> Heating Avail Schedule,  !- Actuated Component Unique Name
+  Schedule:Constant,       !- Actuated Component Type
+  Schedule Value;          !- Actuated Component Control Type

@@ -1041,7 +1041,7 @@ Controller:OutdoorAir,
   FixedMinimum,            !- Minimum Limit Type
   <%= ahu_name %> Outdoor Air Schedule,  !- Minimum Outdoor Air Schedule Name
 <% if oa_frac_sch != "NONE" %>
-  <%= ahu_name %> Outdoor Air Fraction Schedule,                        !- Minimum Fraction of Outdoor Air Schedule Name
+  <%= ahu_name %> Outdoor Air Fraction Schedule,                        !- Minimum Fraction of Outdoor Air Schedule Name <-------
 <% else %>
   ,                        !- Minimum Fraction of Outdoor Air Schedule Name
 <% end %>

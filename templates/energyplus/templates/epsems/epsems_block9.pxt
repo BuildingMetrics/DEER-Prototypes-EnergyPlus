@@ -1,0 +1,44 @@
+<%#INITIALIZE
+require "modelkit/energyplus"
+
+parameter "zone_name"
+%>
+  
+  IF DesignMaxOA_HallG > 0,
+    SET DesignMinFrac_HallG = DesignMinOA_HallG / DesignMaxOA_HallG,
+  ELSE,
+    SET DesignMinFrac_HallG = 0.20,  ! Fallback if sizing not available
+  ENDIF,
+
+  IF FanSched_HallG < 0.5,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.11) 0.21,
+    SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
+    SET Heating_Avail_HallG = 1,
+  ELSE,
+    ! Fan schedule is ON (occupied hours)
+    IF ZoneLoad_HallG < 0,
+      ! Zone has cooling load - check economizer conditions
+      SET Heating_Avail_HallG = 0,
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
+        SET OA_Min_Frac_Sched_HallG = 0.65,
+        SET OA_Frac_Out_HallG = 0.65,
+      ELSE,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.1100) 0.21,
+        SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
+      ENDIF,
+    ELSEIF ZoneLoad_HallG > 0,
+      ! Heating mode - max(design_min + boost, 0.21)
+      SET Heating_Avail_HallG = 1,
+      SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.11) 0.21,
+      SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
+    ELSE,
+      ! No load - max(design_min + boost, 0.21)
+      SET Heating_Avail_HallG = 1,
+      SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.11) 0.21,
+      SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
+    ENDIF,
+  ENDIF,

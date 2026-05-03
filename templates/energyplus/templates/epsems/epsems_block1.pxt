@@ -1,0 +1,16 @@
+<%#INITIALIZE
+require "modelkit/energyplus"
+
+parameter "zone_name"
+%>
+
+Schedule:Constant,
+  <%= zone_name %> Min OA Fraction Schedule,  !- Name
+  Unit Interval,           !- Schedule Type Limits Name
+  0.20;                    !- Value (placeholder - EMS will override)
+
+EnergyManagementSystem:Actuator,
+  OA_Min_Frac_Sched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,          !- Name
+  <%= zone_name %> Min OA Fraction Schedule,  !- Actuated Component Unique Name
+  Schedule:Constant,       !- Actuated Component Type
+  Schedule Value;          !- Actuated Component Control Type

@@ -1,13 +1,14 @@
-!-   ===========  UNIFIED EMS ECONOMIZER CONTROL (BASELINE) ===========
+!-   ===========  UNIFIED EMS ECONOMIZER CONTROL (EMS BASELINE) ===========
 !    This approach uses EMS to actuate the Minimum Fraction of Outdoor Air schedule.
 !    Design minimum OA fraction is obtained from Controller:OutdoorAir sizing.
+!    Economizer uses fixed 65 pct OA when 7.22 C < ODB < 23.89 C (75F).
 !
-!    Parameters for Baseline:
-!    - Unoccupied hours: 35%
-!    - Heating mode: min(design_min + 15%, 65%)
-!    - Neutral load: min(design_min + 15%, 65%)
-!    - Cooling (econ disabled): min(design_min + 15%, 65%)
-!    - Economizer: 65%
+!    Parameters for EMS Baseline:
+!    - Unoccupied hours: 21 pct
+!    - Heating mode: min(design_min + 11 pct, 65 pct)
+!    - Neutral load: min(design_min + 11 pct, 65 pct)
+!    - Cooling (econ disabled): min(design_min + 11 pct, 65 pct)
+!    - Economizer: 65 pct OA, locked out above 75F and below 45 F
 !    - Reheat: DISABLED in cooling mode
 
 
@@ -127,127 +128,6 @@ Schedule:Constant,
 EnergyManagementSystem:Actuator,
   OA_Min_Frac_Sched_WestT,          !- Name
   OfficeSmall EL1 West Perim Spc (T.W14) Min OA Fraction Schedule,  !- Actuated Component Unique Name
-  Schedule:Constant,       !- Actuated Component Type
-  Schedule Value;          !- Actuated Component Control Type
-
-
-! === MAXIMUM OA FRACTION SCHEDULES (EMS-controlled) ===
-Schedule:Constant,
-  Hall EL1 Core Spc (G.C5) Max OA Fraction Schedule,  !- Name
-  Unit Interval,           !- Schedule Type Limits Name
-  0.65;                    !- Value (placeholder - EMS will override)
-
-EnergyManagementSystem:Actuator,
-  OA_Max_Frac_Sched_HallG,          !- Name
-  Hall EL1 Core Spc (G.C5) Max OA Fraction Schedule,  !- Actuated Component Unique Name
-  Schedule:Constant,       !- Actuated Component Type
-  Schedule Value;          !- Actuated Component Control Type
-
-
-Schedule:Constant,
-  OfficeSmall EL1 North Perim Spc (G.N3) Max OA Fraction Schedule,  !- Name
-  Unit Interval,           !- Schedule Type Limits Name
-  0.65;                    !- Value (placeholder - EMS will override)
-
-EnergyManagementSystem:Actuator,
-  OA_Max_Frac_Sched_NorthG,          !- Name
-  OfficeSmall EL1 North Perim Spc (G.N3) Max OA Fraction Schedule,  !- Actuated Component Unique Name
-  Schedule:Constant,       !- Actuated Component Type
-  Schedule Value;          !- Actuated Component Control Type
-
-
-Schedule:Constant,
-  OfficeSmall EL1 East Perim Spc (G.E2) Max OA Fraction Schedule,  !- Name
-  Unit Interval,           !- Schedule Type Limits Name
-  0.65;                    !- Value (placeholder - EMS will override)
-
-EnergyManagementSystem:Actuator,
-  OA_Max_Frac_Sched_EastG,          !- Name
-  OfficeSmall EL1 East Perim Spc (G.E2) Max OA Fraction Schedule,  !- Actuated Component Unique Name
-  Schedule:Constant,       !- Actuated Component Type
-  Schedule Value;          !- Actuated Component Control Type
-
-
-Schedule:Constant,
-  OfficeSmall EL1 South Perim Spc (G.S1) Max OA Fraction Schedule,  !- Name
-  Unit Interval,           !- Schedule Type Limits Name
-  0.65;                    !- Value (placeholder - EMS will override)
-
-EnergyManagementSystem:Actuator,
-  OA_Max_Frac_Sched_SouthG,          !- Name
-  OfficeSmall EL1 South Perim Spc (G.S1) Max OA Fraction Schedule,  !- Actuated Component Unique Name
-  Schedule:Constant,       !- Actuated Component Type
-  Schedule Value;          !- Actuated Component Control Type
-
-
-Schedule:Constant,
-  OfficeSmall EL1 West Perim Spc (G.W4) Max OA Fraction Schedule,  !- Name
-  Unit Interval,           !- Schedule Type Limits Name
-  0.65;                    !- Value (placeholder - EMS will override)
-
-EnergyManagementSystem:Actuator,
-  OA_Max_Frac_Sched_WestG,          !- Name
-  OfficeSmall EL1 West Perim Spc (G.W4) Max OA Fraction Schedule,  !- Actuated Component Unique Name
-  Schedule:Constant,       !- Actuated Component Type
-  Schedule Value;          !- Actuated Component Control Type
-
-
-Schedule:Constant,
-  Hall EL1 Core Spc (T.C15) Max OA Fraction Schedule,  !- Name
-  Unit Interval,           !- Schedule Type Limits Name
-  0.65;                    !- Value (placeholder - EMS will override)
-
-EnergyManagementSystem:Actuator,
-  OA_Max_Frac_Sched_HallT,          !- Name
-  Hall EL1 Core Spc (T.C15) Max OA Fraction Schedule,  !- Actuated Component Unique Name
-  Schedule:Constant,       !- Actuated Component Type
-  Schedule Value;          !- Actuated Component Control Type
-
-
-Schedule:Constant,
-  OfficeSmall EL1 North Perim Spc (T.N13) Max OA Fraction Schedule,  !- Name
-  Unit Interval,           !- Schedule Type Limits Name
-  0.65;                    !- Value (placeholder - EMS will override)
-
-EnergyManagementSystem:Actuator,
-  OA_Max_Frac_Sched_NorthT,          !- Name
-  OfficeSmall EL1 North Perim Spc (T.N13) Max OA Fraction Schedule,  !- Actuated Component Unique Name
-  Schedule:Constant,       !- Actuated Component Type
-  Schedule Value;          !- Actuated Component Control Type
-
-
-Schedule:Constant,
-  OfficeSmall EL1 East Perim Spc (T.E12) Max OA Fraction Schedule,  !- Name
-  Unit Interval,           !- Schedule Type Limits Name
-  0.65;                    !- Value (placeholder - EMS will override)
-
-EnergyManagementSystem:Actuator,
-  OA_Max_Frac_Sched_EastT,          !- Name
-  OfficeSmall EL1 East Perim Spc (T.E12) Max OA Fraction Schedule,  !- Actuated Component Unique Name
-  Schedule:Constant,       !- Actuated Component Type
-  Schedule Value;          !- Actuated Component Control Type
-
-
-Schedule:Constant,
-  OfficeSmall EL1 South Perim Spc (T.S11) Max OA Fraction Schedule,  !- Name
-  Unit Interval,           !- Schedule Type Limits Name
-  0.65;                    !- Value (placeholder - EMS will override)
-
-EnergyManagementSystem:Actuator,
-  OA_Max_Frac_Sched_SouthT,          !- Name
-  OfficeSmall EL1 South Perim Spc (T.S11) Max OA Fraction Schedule,  !- Actuated Component Unique Name
-  Schedule:Constant,       !- Actuated Component Type
-  Schedule Value;          !- Actuated Component Control Type
-
-
-Schedule:Constant,
-  OfficeSmall EL1 West Perim Spc (T.W14) Max OA Fraction Schedule,  !- Name
-  Unit Interval,           !- Schedule Type Limits Name
-  0.65;                    !- Value (placeholder - EMS will override)
-
-EnergyManagementSystem:Actuator,
-  OA_Max_Frac_Sched_WestT,          !- Name
-  OfficeSmall EL1 West Perim Spc (T.W14) Max OA Fraction Schedule,  !- Actuated Component Unique Name
   Schedule:Constant,       !- Actuated Component Type
   Schedule Value;          !- Actuated Component Control Type
 
@@ -573,7 +453,7 @@ EnergyManagementSystem:Sensor,
   Schedule Value;  !- Output:Variable or Output:Meter Name
 
 
-! === GLOBAL VARIABLES FOR OUTPUT ===
+! === GLOBAL VARIABLES ===
 EnergyManagementSystem:GlobalVariable,
   OA_Frac_Out_HallG;
 
@@ -855,12 +735,12 @@ Output:Variable,
   Timestep;                !- Reporting Frequency
 
 
-! === EMS PROGRAM FOR MINIMUM OA FRACTION CONTROL (BASELINE) ===
+! === EMS PROGRAM FOR MINIMUM OA FRACTION CONTROL (EMS BASELINE) ===
 ! Reheat: DISABLED in cooling mode
 EnergyManagementSystem:Program,
   MinOAFractionControl,    !- Name
   ! Control logic for each zone
-  ! Economizer enabled when: 7.22°C (45°F) < ODB < 17.22°C (63°F)
+  ! Economizer enabled when 7.22 C (45 F) < ODB < T24 high limit
   ! Design minimum OA fraction calculated from Controller:OutdoorAir sizing
 
   ! --- Hall EL1 Core Spc (G.C5) ---
@@ -872,41 +752,34 @@ EnergyManagementSystem:Program,
   ENDIF,
 
   IF FanSched_HallG < 0.5,
-    ! Fan schedule is OFF (unoccupied hours) - use 35% min, 65% max
-    SET OA_Min_Frac_Sched_HallG = 0.35,
-    SET OA_Max_Frac_Sched_HallG = 0.65,
-    SET OA_Frac_Out_HallG = 0.35,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.11) 0.21,
+    SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
     SET Heating_Avail_HallG = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
     IF ZoneLoad_HallG < 0,
-      ! Cooling mode: disable reheat
+      ! Zone has cooling load - check economizer conditions
       SET Heating_Avail_HallG = 0,
-      ! Cooling needed - check economizer conditions
-      IF (OutdoorDryBulb > 7.22) && (OutdoorDryBulb < 17.22),
-        ! Economizer enabled - 65% max OA
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
         SET OA_Min_Frac_Sched_HallG = 0.65,
-        SET OA_Max_Frac_Sched_HallG = 0.65,
         SET OA_Frac_Out_HallG = 0.65,
       ELSE,
-        ! Economizer disabled - min(design_min + 15%, 65%)
-        SET OA_Min_Frac_Sched_HallG = @Min (DesignMinFrac_HallG + 0.15) 0.65,
-        SET OA_Max_Frac_Sched_HallG = 0.65,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.1100) 0.21,
         SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
       ENDIF,
     ELSEIF ZoneLoad_HallG > 0,
-      ! Heating mode: enable heating
+      ! Heating mode - max(design_min + boost, 0.21)
       SET Heating_Avail_HallG = 1,
-      ! Heating needed - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_HallG = @Min (DesignMinFrac_HallG + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_HallG = 0.65,
+      SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.11) 0.21,
       SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
     ELSE,
-      ! No load: enable heating
+      ! No load - max(design_min + boost, 0.21)
       SET Heating_Avail_HallG = 1,
-      ! No significant load - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_HallG = @Min (DesignMinFrac_HallG + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_HallG = 0.65,
+      SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.11) 0.21,
       SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
     ENDIF,
   ENDIF,
@@ -920,41 +793,34 @@ EnergyManagementSystem:Program,
   ENDIF,
 
   IF FanSched_NorthG < 0.5,
-    ! Fan schedule is OFF (unoccupied hours) - use 35% min, 65% max
-    SET OA_Min_Frac_Sched_NorthG = 0.35,
-    SET OA_Max_Frac_Sched_NorthG = 0.65,
-    SET OA_Frac_Out_NorthG = 0.35,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_NorthG = @Max (DesignMinFrac_NorthG + 0.11) 0.21,
+    SET OA_Frac_Out_NorthG = OA_Min_Frac_Sched_NorthG,
     SET Heating_Avail_NorthG = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
     IF ZoneLoad_NorthG < 0,
-      ! Cooling mode: disable reheat
+      ! Zone has cooling load - check economizer conditions
       SET Heating_Avail_NorthG = 0,
-      ! Cooling needed - check economizer conditions
-      IF (OutdoorDryBulb > 7.22) && (OutdoorDryBulb < 17.22),
-        ! Economizer enabled - 65% max OA
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
         SET OA_Min_Frac_Sched_NorthG = 0.65,
-        SET OA_Max_Frac_Sched_NorthG = 0.65,
         SET OA_Frac_Out_NorthG = 0.65,
       ELSE,
-        ! Economizer disabled - min(design_min + 15%, 65%)
-        SET OA_Min_Frac_Sched_NorthG = @Min (DesignMinFrac_NorthG + 0.15) 0.65,
-        SET OA_Max_Frac_Sched_NorthG = 0.65,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_NorthG = @Max (DesignMinFrac_NorthG + 0.1100) 0.21,
         SET OA_Frac_Out_NorthG = OA_Min_Frac_Sched_NorthG,
       ENDIF,
     ELSEIF ZoneLoad_NorthG > 0,
-      ! Heating mode: enable heating
+      ! Heating mode - max(design_min + boost, 0.21)
       SET Heating_Avail_NorthG = 1,
-      ! Heating needed - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_NorthG = @Min (DesignMinFrac_NorthG + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_NorthG = 0.65,
+      SET OA_Min_Frac_Sched_NorthG = @Max (DesignMinFrac_NorthG + 0.11) 0.21,
       SET OA_Frac_Out_NorthG = OA_Min_Frac_Sched_NorthG,
     ELSE,
-      ! No load: enable heating
+      ! No load - max(design_min + boost, 0.21)
       SET Heating_Avail_NorthG = 1,
-      ! No significant load - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_NorthG = @Min (DesignMinFrac_NorthG + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_NorthG = 0.65,
+      SET OA_Min_Frac_Sched_NorthG = @Max (DesignMinFrac_NorthG + 0.11) 0.21,
       SET OA_Frac_Out_NorthG = OA_Min_Frac_Sched_NorthG,
     ENDIF,
   ENDIF,
@@ -968,41 +834,34 @@ EnergyManagementSystem:Program,
   ENDIF,
 
   IF FanSched_EastG < 0.5,
-    ! Fan schedule is OFF (unoccupied hours) - use 35% min, 65% max
-    SET OA_Min_Frac_Sched_EastG = 0.35,
-    SET OA_Max_Frac_Sched_EastG = 0.65,
-    SET OA_Frac_Out_EastG = 0.35,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_EastG = @Max (DesignMinFrac_EastG + 0.11) 0.21,
+    SET OA_Frac_Out_EastG = OA_Min_Frac_Sched_EastG,
     SET Heating_Avail_EastG = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
     IF ZoneLoad_EastG < 0,
-      ! Cooling mode: disable reheat
+      ! Zone has cooling load - check economizer conditions
       SET Heating_Avail_EastG = 0,
-      ! Cooling needed - check economizer conditions
-      IF (OutdoorDryBulb > 7.22) && (OutdoorDryBulb < 17.22),
-        ! Economizer enabled - 65% max OA
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
         SET OA_Min_Frac_Sched_EastG = 0.65,
-        SET OA_Max_Frac_Sched_EastG = 0.65,
         SET OA_Frac_Out_EastG = 0.65,
       ELSE,
-        ! Economizer disabled - min(design_min + 15%, 65%)
-        SET OA_Min_Frac_Sched_EastG = @Min (DesignMinFrac_EastG + 0.15) 0.65,
-        SET OA_Max_Frac_Sched_EastG = 0.65,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_EastG = @Max (DesignMinFrac_EastG + 0.1100) 0.21,
         SET OA_Frac_Out_EastG = OA_Min_Frac_Sched_EastG,
       ENDIF,
     ELSEIF ZoneLoad_EastG > 0,
-      ! Heating mode: enable heating
+      ! Heating mode - max(design_min + boost, 0.21)
       SET Heating_Avail_EastG = 1,
-      ! Heating needed - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_EastG = @Min (DesignMinFrac_EastG + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_EastG = 0.65,
+      SET OA_Min_Frac_Sched_EastG = @Max (DesignMinFrac_EastG + 0.11) 0.21,
       SET OA_Frac_Out_EastG = OA_Min_Frac_Sched_EastG,
     ELSE,
-      ! No load: enable heating
+      ! No load - max(design_min + boost, 0.21)
       SET Heating_Avail_EastG = 1,
-      ! No significant load - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_EastG = @Min (DesignMinFrac_EastG + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_EastG = 0.65,
+      SET OA_Min_Frac_Sched_EastG = @Max (DesignMinFrac_EastG + 0.11) 0.21,
       SET OA_Frac_Out_EastG = OA_Min_Frac_Sched_EastG,
     ENDIF,
   ENDIF,
@@ -1016,41 +875,34 @@ EnergyManagementSystem:Program,
   ENDIF,
 
   IF FanSched_SouthG < 0.5,
-    ! Fan schedule is OFF (unoccupied hours) - use 35% min, 65% max
-    SET OA_Min_Frac_Sched_SouthG = 0.35,
-    SET OA_Max_Frac_Sched_SouthG = 0.65,
-    SET OA_Frac_Out_SouthG = 0.35,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_SouthG = @Max (DesignMinFrac_SouthG + 0.11) 0.21,
+    SET OA_Frac_Out_SouthG = OA_Min_Frac_Sched_SouthG,
     SET Heating_Avail_SouthG = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
     IF ZoneLoad_SouthG < 0,
-      ! Cooling mode: disable reheat
+      ! Zone has cooling load - check economizer conditions
       SET Heating_Avail_SouthG = 0,
-      ! Cooling needed - check economizer conditions
-      IF (OutdoorDryBulb > 7.22) && (OutdoorDryBulb < 17.22),
-        ! Economizer enabled - 65% max OA
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
         SET OA_Min_Frac_Sched_SouthG = 0.65,
-        SET OA_Max_Frac_Sched_SouthG = 0.65,
         SET OA_Frac_Out_SouthG = 0.65,
       ELSE,
-        ! Economizer disabled - min(design_min + 15%, 65%)
-        SET OA_Min_Frac_Sched_SouthG = @Min (DesignMinFrac_SouthG + 0.15) 0.65,
-        SET OA_Max_Frac_Sched_SouthG = 0.65,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_SouthG = @Max (DesignMinFrac_SouthG + 0.1100) 0.21,
         SET OA_Frac_Out_SouthG = OA_Min_Frac_Sched_SouthG,
       ENDIF,
     ELSEIF ZoneLoad_SouthG > 0,
-      ! Heating mode: enable heating
+      ! Heating mode - max(design_min + boost, 0.21)
       SET Heating_Avail_SouthG = 1,
-      ! Heating needed - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_SouthG = @Min (DesignMinFrac_SouthG + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_SouthG = 0.65,
+      SET OA_Min_Frac_Sched_SouthG = @Max (DesignMinFrac_SouthG + 0.11) 0.21,
       SET OA_Frac_Out_SouthG = OA_Min_Frac_Sched_SouthG,
     ELSE,
-      ! No load: enable heating
+      ! No load - max(design_min + boost, 0.21)
       SET Heating_Avail_SouthG = 1,
-      ! No significant load - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_SouthG = @Min (DesignMinFrac_SouthG + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_SouthG = 0.65,
+      SET OA_Min_Frac_Sched_SouthG = @Max (DesignMinFrac_SouthG + 0.11) 0.21,
       SET OA_Frac_Out_SouthG = OA_Min_Frac_Sched_SouthG,
     ENDIF,
   ENDIF,
@@ -1064,41 +916,34 @@ EnergyManagementSystem:Program,
   ENDIF,
 
   IF FanSched_WestG < 0.5,
-    ! Fan schedule is OFF (unoccupied hours) - use 35% min, 65% max
-    SET OA_Min_Frac_Sched_WestG = 0.35,
-    SET OA_Max_Frac_Sched_WestG = 0.65,
-    SET OA_Frac_Out_WestG = 0.35,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_WestG = @Max (DesignMinFrac_WestG + 0.11) 0.21,
+    SET OA_Frac_Out_WestG = OA_Min_Frac_Sched_WestG,
     SET Heating_Avail_WestG = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
     IF ZoneLoad_WestG < 0,
-      ! Cooling mode: disable reheat
+      ! Zone has cooling load - check economizer conditions
       SET Heating_Avail_WestG = 0,
-      ! Cooling needed - check economizer conditions
-      IF (OutdoorDryBulb > 7.22) && (OutdoorDryBulb < 17.22),
-        ! Economizer enabled - 65% max OA
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
         SET OA_Min_Frac_Sched_WestG = 0.65,
-        SET OA_Max_Frac_Sched_WestG = 0.65,
         SET OA_Frac_Out_WestG = 0.65,
       ELSE,
-        ! Economizer disabled - min(design_min + 15%, 65%)
-        SET OA_Min_Frac_Sched_WestG = @Min (DesignMinFrac_WestG + 0.15) 0.65,
-        SET OA_Max_Frac_Sched_WestG = 0.65,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_WestG = @Max (DesignMinFrac_WestG + 0.1100) 0.21,
         SET OA_Frac_Out_WestG = OA_Min_Frac_Sched_WestG,
       ENDIF,
     ELSEIF ZoneLoad_WestG > 0,
-      ! Heating mode: enable heating
+      ! Heating mode - max(design_min + boost, 0.21)
       SET Heating_Avail_WestG = 1,
-      ! Heating needed - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_WestG = @Min (DesignMinFrac_WestG + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_WestG = 0.65,
+      SET OA_Min_Frac_Sched_WestG = @Max (DesignMinFrac_WestG + 0.11) 0.21,
       SET OA_Frac_Out_WestG = OA_Min_Frac_Sched_WestG,
     ELSE,
-      ! No load: enable heating
+      ! No load - max(design_min + boost, 0.21)
       SET Heating_Avail_WestG = 1,
-      ! No significant load - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_WestG = @Min (DesignMinFrac_WestG + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_WestG = 0.65,
+      SET OA_Min_Frac_Sched_WestG = @Max (DesignMinFrac_WestG + 0.11) 0.21,
       SET OA_Frac_Out_WestG = OA_Min_Frac_Sched_WestG,
     ENDIF,
   ENDIF,
@@ -1112,41 +957,34 @@ EnergyManagementSystem:Program,
   ENDIF,
 
   IF FanSched_HallT < 0.5,
-    ! Fan schedule is OFF (unoccupied hours) - use 35% min, 65% max
-    SET OA_Min_Frac_Sched_HallT = 0.35,
-    SET OA_Max_Frac_Sched_HallT = 0.65,
-    SET OA_Frac_Out_HallT = 0.35,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_HallT = @Max (DesignMinFrac_HallT + 0.11) 0.21,
+    SET OA_Frac_Out_HallT = OA_Min_Frac_Sched_HallT,
     SET Heating_Avail_HallT = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
     IF ZoneLoad_HallT < 0,
-      ! Cooling mode: disable reheat
+      ! Zone has cooling load - check economizer conditions
       SET Heating_Avail_HallT = 0,
-      ! Cooling needed - check economizer conditions
-      IF (OutdoorDryBulb > 7.22) && (OutdoorDryBulb < 17.22),
-        ! Economizer enabled - 65% max OA
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
         SET OA_Min_Frac_Sched_HallT = 0.65,
-        SET OA_Max_Frac_Sched_HallT = 0.65,
         SET OA_Frac_Out_HallT = 0.65,
       ELSE,
-        ! Economizer disabled - min(design_min + 15%, 65%)
-        SET OA_Min_Frac_Sched_HallT = @Min (DesignMinFrac_HallT + 0.15) 0.65,
-        SET OA_Max_Frac_Sched_HallT = 0.65,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_HallT = @Max (DesignMinFrac_HallT + 0.1100) 0.21,
         SET OA_Frac_Out_HallT = OA_Min_Frac_Sched_HallT,
       ENDIF,
     ELSEIF ZoneLoad_HallT > 0,
-      ! Heating mode: enable heating
+      ! Heating mode - max(design_min + boost, 0.21)
       SET Heating_Avail_HallT = 1,
-      ! Heating needed - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_HallT = @Min (DesignMinFrac_HallT + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_HallT = 0.65,
+      SET OA_Min_Frac_Sched_HallT = @Max (DesignMinFrac_HallT + 0.11) 0.21,
       SET OA_Frac_Out_HallT = OA_Min_Frac_Sched_HallT,
     ELSE,
-      ! No load: enable heating
+      ! No load - max(design_min + boost, 0.21)
       SET Heating_Avail_HallT = 1,
-      ! No significant load - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_HallT = @Min (DesignMinFrac_HallT + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_HallT = 0.65,
+      SET OA_Min_Frac_Sched_HallT = @Max (DesignMinFrac_HallT + 0.11) 0.21,
       SET OA_Frac_Out_HallT = OA_Min_Frac_Sched_HallT,
     ENDIF,
   ENDIF,
@@ -1160,41 +998,34 @@ EnergyManagementSystem:Program,
   ENDIF,
 
   IF FanSched_NorthT < 0.5,
-    ! Fan schedule is OFF (unoccupied hours) - use 35% min, 65% max
-    SET OA_Min_Frac_Sched_NorthT = 0.35,
-    SET OA_Max_Frac_Sched_NorthT = 0.65,
-    SET OA_Frac_Out_NorthT = 0.35,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_NorthT = @Max (DesignMinFrac_NorthT + 0.11) 0.21,
+    SET OA_Frac_Out_NorthT = OA_Min_Frac_Sched_NorthT,
     SET Heating_Avail_NorthT = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
     IF ZoneLoad_NorthT < 0,
-      ! Cooling mode: disable reheat
+      ! Zone has cooling load - check economizer conditions
       SET Heating_Avail_NorthT = 0,
-      ! Cooling needed - check economizer conditions
-      IF (OutdoorDryBulb > 7.22) && (OutdoorDryBulb < 17.22),
-        ! Economizer enabled - 65% max OA
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
         SET OA_Min_Frac_Sched_NorthT = 0.65,
-        SET OA_Max_Frac_Sched_NorthT = 0.65,
         SET OA_Frac_Out_NorthT = 0.65,
       ELSE,
-        ! Economizer disabled - min(design_min + 15%, 65%)
-        SET OA_Min_Frac_Sched_NorthT = @Min (DesignMinFrac_NorthT + 0.15) 0.65,
-        SET OA_Max_Frac_Sched_NorthT = 0.65,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_NorthT = @Max (DesignMinFrac_NorthT + 0.1100) 0.21,
         SET OA_Frac_Out_NorthT = OA_Min_Frac_Sched_NorthT,
       ENDIF,
     ELSEIF ZoneLoad_NorthT > 0,
-      ! Heating mode: enable heating
+      ! Heating mode - max(design_min + boost, 0.21)
       SET Heating_Avail_NorthT = 1,
-      ! Heating needed - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_NorthT = @Min (DesignMinFrac_NorthT + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_NorthT = 0.65,
+      SET OA_Min_Frac_Sched_NorthT = @Max (DesignMinFrac_NorthT + 0.11) 0.21,
       SET OA_Frac_Out_NorthT = OA_Min_Frac_Sched_NorthT,
     ELSE,
-      ! No load: enable heating
+      ! No load - max(design_min + boost, 0.21)
       SET Heating_Avail_NorthT = 1,
-      ! No significant load - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_NorthT = @Min (DesignMinFrac_NorthT + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_NorthT = 0.65,
+      SET OA_Min_Frac_Sched_NorthT = @Max (DesignMinFrac_NorthT + 0.11) 0.21,
       SET OA_Frac_Out_NorthT = OA_Min_Frac_Sched_NorthT,
     ENDIF,
   ENDIF,
@@ -1208,41 +1039,34 @@ EnergyManagementSystem:Program,
   ENDIF,
 
   IF FanSched_EastT < 0.5,
-    ! Fan schedule is OFF (unoccupied hours) - use 35% min, 65% max
-    SET OA_Min_Frac_Sched_EastT = 0.35,
-    SET OA_Max_Frac_Sched_EastT = 0.65,
-    SET OA_Frac_Out_EastT = 0.35,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_EastT = @Max (DesignMinFrac_EastT + 0.11) 0.21,
+    SET OA_Frac_Out_EastT = OA_Min_Frac_Sched_EastT,
     SET Heating_Avail_EastT = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
     IF ZoneLoad_EastT < 0,
-      ! Cooling mode: disable reheat
+      ! Zone has cooling load - check economizer conditions
       SET Heating_Avail_EastT = 0,
-      ! Cooling needed - check economizer conditions
-      IF (OutdoorDryBulb > 7.22) && (OutdoorDryBulb < 17.22),
-        ! Economizer enabled - 65% max OA
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
         SET OA_Min_Frac_Sched_EastT = 0.65,
-        SET OA_Max_Frac_Sched_EastT = 0.65,
         SET OA_Frac_Out_EastT = 0.65,
       ELSE,
-        ! Economizer disabled - min(design_min + 15%, 65%)
-        SET OA_Min_Frac_Sched_EastT = @Min (DesignMinFrac_EastT + 0.15) 0.65,
-        SET OA_Max_Frac_Sched_EastT = 0.65,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_EastT = @Max (DesignMinFrac_EastT + 0.1100) 0.21,
         SET OA_Frac_Out_EastT = OA_Min_Frac_Sched_EastT,
       ENDIF,
     ELSEIF ZoneLoad_EastT > 0,
-      ! Heating mode: enable heating
+      ! Heating mode - max(design_min + boost, 0.21)
       SET Heating_Avail_EastT = 1,
-      ! Heating needed - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_EastT = @Min (DesignMinFrac_EastT + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_EastT = 0.65,
+      SET OA_Min_Frac_Sched_EastT = @Max (DesignMinFrac_EastT + 0.11) 0.21,
       SET OA_Frac_Out_EastT = OA_Min_Frac_Sched_EastT,
     ELSE,
-      ! No load: enable heating
+      ! No load - max(design_min + boost, 0.21)
       SET Heating_Avail_EastT = 1,
-      ! No significant load - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_EastT = @Min (DesignMinFrac_EastT + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_EastT = 0.65,
+      SET OA_Min_Frac_Sched_EastT = @Max (DesignMinFrac_EastT + 0.11) 0.21,
       SET OA_Frac_Out_EastT = OA_Min_Frac_Sched_EastT,
     ENDIF,
   ENDIF,
@@ -1256,41 +1080,34 @@ EnergyManagementSystem:Program,
   ENDIF,
 
   IF FanSched_SouthT < 0.5,
-    ! Fan schedule is OFF (unoccupied hours) - use 35% min, 65% max
-    SET OA_Min_Frac_Sched_SouthT = 0.35,
-    SET OA_Max_Frac_Sched_SouthT = 0.65,
-    SET OA_Frac_Out_SouthT = 0.35,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_SouthT = @Max (DesignMinFrac_SouthT + 0.11) 0.21,
+    SET OA_Frac_Out_SouthT = OA_Min_Frac_Sched_SouthT,
     SET Heating_Avail_SouthT = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
     IF ZoneLoad_SouthT < 0,
-      ! Cooling mode: disable reheat
+      ! Zone has cooling load - check economizer conditions
       SET Heating_Avail_SouthT = 0,
-      ! Cooling needed - check economizer conditions
-      IF (OutdoorDryBulb > 7.22) && (OutdoorDryBulb < 17.22),
-        ! Economizer enabled - 65% max OA
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
         SET OA_Min_Frac_Sched_SouthT = 0.65,
-        SET OA_Max_Frac_Sched_SouthT = 0.65,
         SET OA_Frac_Out_SouthT = 0.65,
       ELSE,
-        ! Economizer disabled - min(design_min + 15%, 65%)
-        SET OA_Min_Frac_Sched_SouthT = @Min (DesignMinFrac_SouthT + 0.15) 0.65,
-        SET OA_Max_Frac_Sched_SouthT = 0.65,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_SouthT = @Max (DesignMinFrac_SouthT + 0.1100) 0.21,
         SET OA_Frac_Out_SouthT = OA_Min_Frac_Sched_SouthT,
       ENDIF,
     ELSEIF ZoneLoad_SouthT > 0,
-      ! Heating mode: enable heating
+      ! Heating mode - max(design_min + boost, 0.21)
       SET Heating_Avail_SouthT = 1,
-      ! Heating needed - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_SouthT = @Min (DesignMinFrac_SouthT + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_SouthT = 0.65,
+      SET OA_Min_Frac_Sched_SouthT = @Max (DesignMinFrac_SouthT + 0.11) 0.21,
       SET OA_Frac_Out_SouthT = OA_Min_Frac_Sched_SouthT,
     ELSE,
-      ! No load: enable heating
+      ! No load - max(design_min + boost, 0.21)
       SET Heating_Avail_SouthT = 1,
-      ! No significant load - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_SouthT = @Min (DesignMinFrac_SouthT + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_SouthT = 0.65,
+      SET OA_Min_Frac_Sched_SouthT = @Max (DesignMinFrac_SouthT + 0.11) 0.21,
       SET OA_Frac_Out_SouthT = OA_Min_Frac_Sched_SouthT,
     ENDIF,
   ENDIF,
@@ -1304,41 +1121,34 @@ EnergyManagementSystem:Program,
   ENDIF,
 
   IF FanSched_WestT < 0.5,
-    ! Fan schedule is OFF (unoccupied hours) - use 35% min, 65% max
-    SET OA_Min_Frac_Sched_WestT = 0.35,
-    SET OA_Max_Frac_Sched_WestT = 0.65,
-    SET OA_Frac_Out_WestT = 0.35,
+    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
+    SET OA_Min_Frac_Sched_WestT = @Max (DesignMinFrac_WestT + 0.11) 0.21,
+    SET OA_Frac_Out_WestT = OA_Min_Frac_Sched_WestT,
     SET Heating_Avail_WestT = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
     IF ZoneLoad_WestT < 0,
-      ! Cooling mode: disable reheat
+      ! Zone has cooling load - check economizer conditions
       SET Heating_Avail_WestT = 0,
-      ! Cooling needed - check economizer conditions
-      IF (OutdoorDryBulb > 7.22) && (OutdoorDryBulb < 17.22),
-        ! Economizer enabled - 65% max OA
+      ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+        ! Economizer enabled
         SET OA_Min_Frac_Sched_WestT = 0.65,
-        SET OA_Max_Frac_Sched_WestT = 0.65,
         SET OA_Frac_Out_WestT = 0.65,
       ELSE,
-        ! Economizer disabled - min(design_min + 15%, 65%)
-        SET OA_Min_Frac_Sched_WestT = @Min (DesignMinFrac_WestT + 0.15) 0.65,
-        SET OA_Max_Frac_Sched_WestT = 0.65,
+        ! Economizer disabled - max(design_min + boost, oa_min)
+        SET OA_Min_Frac_Sched_WestT = @Max (DesignMinFrac_WestT + 0.1100) 0.21,
         SET OA_Frac_Out_WestT = OA_Min_Frac_Sched_WestT,
       ENDIF,
     ELSEIF ZoneLoad_WestT > 0,
-      ! Heating mode: enable heating
+      ! Heating mode - max(design_min + boost, 0.21)
       SET Heating_Avail_WestT = 1,
-      ! Heating needed - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_WestT = @Min (DesignMinFrac_WestT + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_WestT = 0.65,
+      SET OA_Min_Frac_Sched_WestT = @Max (DesignMinFrac_WestT + 0.11) 0.21,
       SET OA_Frac_Out_WestT = OA_Min_Frac_Sched_WestT,
     ELSE,
-      ! No load: enable heating
+      ! No load - max(design_min + boost, 0.21)
       SET Heating_Avail_WestT = 1,
-      ! No significant load - min(design_min + 15%, 65%)
-      SET OA_Min_Frac_Sched_WestT = @Min (DesignMinFrac_WestT + 0.15) 0.65,
-      SET OA_Max_Frac_Sched_WestT = 0.65,
+      SET OA_Min_Frac_Sched_WestT = @Max (DesignMinFrac_WestT + 0.11) 0.21,
       SET OA_Frac_Out_WestT = OA_Min_Frac_Sched_WestT,
     ENDIF,
   ENDIF,
@@ -1502,4 +1312,3 @@ Output:Variable,
   OfficeSmall EL1 West Perim Spc (T.W14),              !- Key Value
   Zone Predicted Sensible Load to Setpoint Heat Transfer Rate,  !- Variable Name
   Timestep;                !- Reporting Frequency
-

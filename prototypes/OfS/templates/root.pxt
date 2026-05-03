@@ -1,4 +1,7 @@
 <%#INTERFACE
+
+parameter "main_hvac_type", :default => "SZ_CAV"
+
 import "general.pxt", :group => "general" do
   include "*"
   exclude "min*|max*|*convergence"
@@ -722,5 +725,51 @@ end
 insert "output.pxt"
 insert "custom.pxt"
 
-insert "EGS_OfS_DXGF_EMS.pxt"
+epsems_zones = [
+  ["Hall EL1 Core Spc (G.C5)"],
+  ["OfficeSmall EL1 North Perim Spc (G.N3)"],
+  ["OfficeSmall EL1 East Perim Spc (G.E2)"],
+  ["OfficeSmall EL1 South Perim Spc (G.S1)"],
+  ["OfficeSmall EL1 West Perim Spc (G.W4)"],
+  ["Hall EL1 Core Spc (T.C15)"],
+  ["OfficeSmall EL1 East Perim Spc (T.E12)"],
+  ["OfficeSmall EL1 North Perim Spc (T.N13)"],
+  ["OfficeSmall EL1 South Perim Spc (T.S11)"],
+  ["OfficeSmall EL1 West Perim Spc (T.W14)"],
+]
+
+for zone in epsems_zones
+  zone_name = zone[0]
+  insert "epsems/epsems_block1.pxt",
+    :zone_name => zone_name
+end
+for zone in epsems_zones
+  zone_name = zone[0]
+  insert "epsems/epsems_block2.pxt",
+    :zone_name => zone_name
+end
+for zone in epsems_zones
+  zone_name = zone[0]
+  insert "epsems/epsems_block3.pxt",
+    :zone_name => zone_name,
+    :main_hvac_type => main_hvac_type
+end
+insert "epsems/epsems_block4.pxt"
+for zone in epsems_zones
+  zone_name = zone[0]
+  insert "epsems/epsems_block5.pxt",
+    :zone_name => zone_name,
+    :main_hvac_type => main_hvac_type
+end
+for zone in epsems_zones
+  zone_name = zone[0]
+  insert "epsems/epsems_block6.pxt",
+    :zone_name => zone_name
+end
+for zone in epsems_zones
+  zone_name = zone[0]
+  insert "epsems/epsems_block7.pxt",
+    :zone_name => zone_name
+end
+insert "epsems/epsems_block8.pxt"
 %>
