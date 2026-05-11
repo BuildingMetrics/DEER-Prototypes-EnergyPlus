@@ -55,6 +55,23 @@ Output:Variable,
 Output:Meter,Electricity:Facility,hourly; !- [J]
 Output:Meter,Gas:Facility,hourly; !- [J]
 
+! Added 5/6/2026 - Building Metrics - SWSV021-01 EGS_Ex
+Output:Variable,*, Site Outdoor Air Drybulb Temperature,timestep; !- Zone Average [C]
+
+! Ideal Loads
+Output:Variable,*, Zone Ideal Loads Zone Total Cooling Rate,timestep; !- HVAC Average [W]
+Output:Variable,*, Zone Ideal Loads Zone Total Heating Rate,timestep; !- HVAC Average [W]
+
+! HVAC Systems
+
+Output:Variable,*, Heating Coil Heating Rate,timestep; !- HVAC Average [W]
+Output:Variable,*, Cooling Coil Total Cooling Rate,timestep; !- HVAC Average [W]
+Output:Variable,*, Unitary System Fan Part Load Ratio,timestep; !- HVAC Average []
+Output:Variable,*, Air System Outdoor Air Flow Fraction,timestep; !- HVAC Average []
+! End - Building Metrics
+
+
+
 ! Zone
 !Output:Variable,Perimeter_ZN_1,Zone Mean Air Temperature,hourly; !- Zone Average [C]
 
@@ -94,3 +111,5 @@ Output:Meter,Gas:Facility,hourly; !- [J]
 !Output:Variable,*,Site Outdoor Air Wetbulb Temperature,hourly; !- Zone Average [C]
 !Output:Variable,*,MT_System Cond Temp,hourly;
 !Output:Variable,*,LT_System Cond Temp,hourly;
+
+

@@ -1,6 +1,11 @@
 <%#INTERFACE
 
 parameter "main_hvac_type", :default => "SZ_CAV"
+parameter "main_oa_econ_max_temp"
+parameter "damper_closed_fraction"
+parameter "damper_open_fraction"
+parameter "occupied_mode_add"
+parameter "epsems_enabled"
 
 import "general.pxt", :group => "general" do
   include "*"
@@ -131,12 +136,14 @@ group "space_hvac" do
   end
 
   import "zonehvac/hvac-zone.pxt", :group => "corridor", :prefix => "corridor_" do
+    include "epsems_enabled"
     parameter "oa_area", :default => 0.15['CFM/ft2']
     parameter "exh_fan_flow_area", :default => 0['CFM/ft2']
     parameter "exh_fan_coupling", :default => FALSE
   end
 
   import "zonehvac/hvac-zone.pxt", :group => "office_large", :prefix => "office_large_" do
+    include "epsems_enabled"
     parameter "oa_area", :default => 0.15['CFM/ft2']
     parameter "exh_fan_flow_area", :default => 0['CFM/ft2']
     parameter "exh_fan_coupling", :default => FALSE
@@ -725,51 +732,70 @@ end
 insert "output.pxt"
 insert "custom.pxt"
 
-epsems_zones = [
-  ["Hall EL1 Core Spc (G.C5)"],
-  ["OfficeSmall EL1 North Perim Spc (G.N3)"],
-  ["OfficeSmall EL1 East Perim Spc (G.E2)"],
-  ["OfficeSmall EL1 South Perim Spc (G.S1)"],
-  ["OfficeSmall EL1 West Perim Spc (G.W4)"],
-  ["Hall EL1 Core Spc (T.C15)"],
-  ["OfficeSmall EL1 East Perim Spc (T.E12)"],
-  ["OfficeSmall EL1 North Perim Spc (T.N13)"],
-  ["OfficeSmall EL1 South Perim Spc (T.S11)"],
-  ["OfficeSmall EL1 West Perim Spc (T.W14)"],
-]
+if (epsems_enabled)
+  epsems_zones = [
+    ["Hall EL1 Core Spc (G.C5)"],
+    ["OfficeSmall EL1 North Perim Spc (G.N3)"],
+    ["OfficeSmall EL1 East Perim Spc (G.E2)"],
+    ["OfficeSmall EL1 South Perim Spc (G.S1)"],
+    ["OfficeSmall EL1 West Perim Spc (G.W4)"],
+    ["Hall EL1 Core Spc (T.C15)"],
+    ["OfficeSmall EL1 East Perim Spc (T.E12)"],
+    ["OfficeSmall EL1 North Perim Spc (T.N13)"],
+    ["OfficeSmall EL1 South Perim Spc (T.S11)"],
+    ["OfficeSmall EL1 West Perim Spc (T.W14)"],
+  ]
 
-for zone in epsems_zones
-  zone_name = zone[0]
-  insert "epsems/epsems_block1.pxt",
-    :zone_name => zone_name
+  for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block1.pxt",
+      :zone_name => zone_name
+  end
+  for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block2.pxt",
+      :zone_name => zone_name
+  end
+  for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block3.pxt",
+      :zone_name => zone_name,
+      :main_hvac_type => main_hvac_type
+  end
+  insert "epsems/epsems_block4.pxt"
+  for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block5.pxt",
+      :zone_name => zone_name,
+      :main_hvac_type => main_hvac_type
+  end
+  for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block6.pxt",
+      :zone_name => zone_name
+  end
+  for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block7.pxt",
+      :zone_name => zone_name
+  end
+  insert "epsems/epsems_block8.pxt"
+  for zone in epsems_zones
+    zone_name = zone[0]
+    
+    insert "epsems/epsems_block9.pxt",
+      :zone_name => zone_name,
+      :main_oa_econ_max_temp => main_oa_econ_max_temp,
+      :damper_closed_fraction => damper_closed_fraction,
+      :damper_open_fraction => damper_open_fraction,
+      :occupied_mode_add => occupied_mode_add
+  end
+  insert "epsems/epsems_block10.pxt"
+  for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block11.pxt",
+      :zone_name => zone_name,
+      :main_hvac_type => main_hvac_type
+  end
 end
-for zone in epsems_zones
-  zone_name = zone[0]
-  insert "epsems/epsems_block2.pxt",
-    :zone_name => zone_name
-end
-for zone in epsems_zones
-  zone_name = zone[0]
-  insert "epsems/epsems_block3.pxt",
-    :zone_name => zone_name,
-    :main_hvac_type => main_hvac_type
-end
-insert "epsems/epsems_block4.pxt"
-for zone in epsems_zones
-  zone_name = zone[0]
-  insert "epsems/epsems_block5.pxt",
-    :zone_name => zone_name,
-    :main_hvac_type => main_hvac_type
-end
-for zone in epsems_zones
-  zone_name = zone[0]
-  insert "epsems/epsems_block6.pxt",
-    :zone_name => zone_name
-end
-for zone in epsems_zones
-  zone_name = zone[0]
-  insert "epsems/epsems_block7.pxt",
-    :zone_name => zone_name
-end
-insert "epsems/epsems_block8.pxt"
 %>

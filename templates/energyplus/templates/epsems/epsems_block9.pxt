@@ -2,43 +2,49 @@
 require "modelkit/energyplus"
 
 parameter "zone_name"
+parameter "main_oa_econ_max_temp"
+parameter "damper_closed_fraction"
+parameter "damper_open_fraction"
+parameter "occupied_mode_add"
 %>
+
   
-  IF DesignMaxOA_HallG > 0,
-    SET DesignMinFrac_HallG = DesignMinOA_HallG / DesignMaxOA_HallG,
+  
+  IF DesignMaxOA_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> > 0,
+    SET DesignMinFrac_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = DesignMinOA_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> / DesignMaxOA_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,
   ELSE,
-    SET DesignMinFrac_HallG = 0.20,  ! Fallback if sizing not available
+    SET DesignMinFrac_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = 0.20,  ! Fallback if sizing not available
   ENDIF,
 
-  IF FanSched_HallG < 0.5,
-    ! Fan schedule is OFF (unoccupied) - max(design_min + boost, 0.21)
-    SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.11) 0.21,
-    SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
-    SET Heating_Avail_HallG = 1,
+  IF FanSched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> < 0.5,
+    ! Fan schedule is OFF (unoccupied) = <%= damper_closed_fraction %>
+    SET OA_Min_Frac_Sched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = <%= damper_closed_fraction %>,
+    SET OA_Frac_Out_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = OA_Min_Frac_Sched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,
+    SET Heating_Avail_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = 1,
   ELSE,
     ! Fan schedule is ON (occupied hours)
-    IF ZoneLoad_HallG < 0,
+    IF ZoneLoad_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> < 0,
       ! Zone has cooling load - check economizer conditions
-      SET Heating_Avail_HallG = 0,
+      SET Heating_Avail_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = 0,
       ! Economizer: fixed 65 pct OA when 40F < ODB < 75F
-      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < 23.8889),
+      IF (OutdoorDryBulb > 4.4444) && (OutdoorDryBulb < <%= main_oa_econ_max_temp %>),
         ! Economizer enabled
-        SET OA_Min_Frac_Sched_HallG = 0.65,
-        SET OA_Frac_Out_HallG = 0.65,
+        SET OA_Min_Frac_Sched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = <%= damper_open_fraction %>,
+        SET OA_Frac_Out_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = <%= damper_open_fraction %>,
       ELSE,
         ! Economizer disabled - max(design_min + boost, oa_min)
-        SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.1100) 0.21,
-        SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
+        SET OA_Min_Frac_Sched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = @Max (DesignMinFrac_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> + <%= occupied_mode_add %>) <%= damper_closed_fraction %>,
+        SET OA_Frac_Out_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = OA_Min_Frac_Sched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,
       ENDIF,
-    ELSEIF ZoneLoad_HallG > 0,
-      ! Heating mode - max(design_min + boost, 0.21)
-      SET Heating_Avail_HallG = 1,
-      SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.11) 0.21,
-      SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
+    ELSEIF ZoneLoad_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> > 0,
+      ! Heating mode - max(design_min + boost, <%= damper_closed_fraction %>)
+      SET Heating_Avail_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = 1,
+      SET OA_Min_Frac_Sched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = @Max (DesignMinFrac_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> + <%= occupied_mode_add %>) <%= damper_closed_fraction %>,
+      SET OA_Frac_Out_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = OA_Min_Frac_Sched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,
     ELSE,
-      ! No load - max(design_min + boost, 0.21)
-      SET Heating_Avail_HallG = 1,
-      SET OA_Min_Frac_Sched_HallG = @Max (DesignMinFrac_HallG + 0.11) 0.21,
-      SET OA_Frac_Out_HallG = OA_Min_Frac_Sched_HallG,
+      ! No load - max(design_min + boost, <%= damper_closed_fraction %>)
+      SET Heating_Avail_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = 1,
+      SET OA_Min_Frac_Sched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = @Max (DesignMinFrac_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> + <%= occupied_mode_add %>) <%= damper_closed_fraction %>,
+      SET OA_Frac_Out_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %> = OA_Min_Frac_Sched_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,
     ENDIF,
   ENDIF,

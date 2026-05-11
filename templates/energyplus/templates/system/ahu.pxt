@@ -3,6 +3,7 @@ require "modelkit/energyplus"
 
 parameter "ahu_name"
 parameter "branch_names"
+parameter "epsems_enabled"
 
 parameter "ahu_type", :name => "AHU Type", :description => "Type of air handling unit",
   :default => "CAV", :domain => String  # ["CAV", "VAV", "DOAS", "MAU"]
@@ -1029,7 +1030,12 @@ Controller:OutdoorAir,
   ,                        !- Economizer Minimum Limit Dry-Bulb Temperature {C}
   ,                        !- Lockout Type
 <% else %>
-  <%= oa_econ_type_input %>,  !- Economizer Control Type
+  <% if (epsems_enabled) %>
+    NoEconomizer,  !- Economizer Control Type
+  <% else %>
+     <%= oa_econ_type_input %>,  !- Economizer Control Type
+  <% end %>       
+ 
   <%= oa_econ_control_action_input %>,  !- Economizer Control Action Type
   <%= oa_econ_max_temp %>,  !- Economizer Maximum Limit Dry-Bulb Temperature {C}
   ,                        !- Economizer Maximum Limit Enthalpy {J/kg}
@@ -1043,7 +1049,11 @@ Controller:OutdoorAir,
 <% if oa_frac_sch != "NONE" %>
   <%= ahu_name %> Outdoor Air Fraction Schedule,                        !- Minimum Fraction of Outdoor Air Schedule Name <-------
 <% else %>
-  ,                        !- Minimum Fraction of Outdoor Air Schedule Name
+  <% if (epsems_enabled) %>
+    <%= control_zone_name %> Min OA Fraction Schedule,             !- Minimum Fraction of Outdoor Air Schedule Name <-------
+  <% else %>
+    ,
+  <% end %>                        !- Minimum Fraction of Outdoor Air Schedule Name
 <% end %>
 <% if oa_frac_max_sch != "NONE" %>
   <%= ahu_name %> Outdoor Air Max Fraction Schedule, !- Maximum Fraction of Outdoor Air Schedule Name

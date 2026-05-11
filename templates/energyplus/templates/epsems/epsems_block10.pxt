@@ -1,0 +1,7 @@
+ ;  !- End of program
+
+! === PROGRAM CALLING MANAGER ===
+EnergyManagementSystem:ProgramCallingManager,
+  MinOAFractionManager,    !- Name
+  AfterPredictorBeforeHVACManagers,  !- EnergyPlus Model Calling Point
+  MinOAFractionControl;    !- Program Name

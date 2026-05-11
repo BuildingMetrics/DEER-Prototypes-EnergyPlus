@@ -3,6 +3,7 @@ require "modelkit/energyplus"
 
 parameter "zone_name"
 parameter "sys_name"
+parameter "epsems_enabled", :default => false, :type => "Enumeration", :valuelist => "true,false"
 
 parameter "hvac_type",
   :default => "CUSTOM", :domain => String  # ["ZN-PTAC", "ZN-PTHP", "ZN-WINAC", "SZ-CAV", "MZ-CAV", "MZ-VAV", "MZ-VRF", "IDEAL", "CUSTOM", "SZ-MAU", "UH"]   there's more
@@ -882,7 +883,8 @@ unitary_parameters = [
   :aux_heat_coil_eff,
   :aux_heat_coil_fuel,
 
-  :disable_ems
+  :disable_ems,
+  :epsems_enabled
 ]
 
 # if unitary_parameters are being repeated twice, maybe better to separate unitary system from ahu.pxt...

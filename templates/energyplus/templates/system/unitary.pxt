@@ -1,6 +1,7 @@
 <%#INITIALIZE
 require "modelkit/energyplus"
 
+parameter "epsems_enabled"
 parameter "unitary_name"
 
 parameter "doas", :default => false
@@ -1838,7 +1839,11 @@ Branch,
 <% if (heat_coil_type == "COMBUSTION") %>
 Coil:Heating:Fuel,
   <%= unitary_name %> Heating Coil,  !- Name
-  ,                        !- Availability Schedule Name
+    <% if (epsems_enabled) %>
+      <%= control_zone_name %> Heating Avail Schedule, !- Availability Schedule Name
+    <% else %>
+      ,                        !- Availability Schedule Name
+    <% end %>
   <%= heat_coil_fuel %>,   !- Fuel Type
   <%= heat_coil_eff %>,    !- Gas Burner Efficiency
   <%= heat_coil_cap %>,    !- Nominal Capacity {W}
@@ -1877,7 +1882,11 @@ Coil:Heating:Fuel,
 <% elsif (heat_coil_type == "MULTI-STAGE-GAS") %>
 Coil:Heating:Gas:MultiStage,
   <%= unitary_name %> Heating Coil,  !- Name
-  ,                        !- Availability Schedule Name
+    <% if (epsems_enabled) %>
+      <%= control_zone_name %> Heating Avail Schedule, !- Availability Schedule Name
+    <% else %>
+      ,                        !- Availability Schedule Name
+    <% end %>
 <% if (fan_config == "DRAW-THROUGH" and cool_coil_type == "NONE") %>
   <%= unitary_name %> Unitary Inlet Node,  !- Air Inlet Node Name
 <% elsif (fan_config == "BLOW-THROUGH" and cool_coil_type == "NONE") %>
@@ -1923,7 +1932,11 @@ Coil:Heating:Gas:MultiStage,
 <% elsif (heat_coil_type == "RESISTANCE") %>
 Coil:Heating:Electric,
   <%= unitary_name %> Heating Coil,  !- Name
-  ,                        !- Availability Schedule Name
+    <% if (epsems_enabled) %>
+      <%= control_zone_name %> Heating Avail Schedule, !- Availability Schedule Name
+    <% else %>
+      ,                        !- Availability Schedule Name
+    <% end %>
   <%= heat_coil_eff %>,    !- Efficiency
   <%= heat_coil_cap %>,    !- Nominal Capacity {W}
 <% if (fan_config == "DRAW-THROUGH" and cool_coil_type == "NONE") %>
@@ -1952,7 +1965,11 @@ Coil:Heating:Electric,
 <% elsif (heat_coil_type == "DX-AIR" and dx_comp_speed_num == 1) %>
 Coil:Heating:DX:SingleSpeed,
   <%= unitary_name %> Heating Coil,  !- Name
-  ,                        !- Availability Schedule Name
+    <% if (epsems_enabled) %>
+      <%= control_zone_name %> Heating Avail Schedule, !- Availability Schedule Name
+    <% else %>
+      ,                        !- Availability Schedule Name
+    <% end %>
   <%= heat_coil_cap %>,    !- Gross Rated Heating Capacity {W}
   <%= heat_coil_cop_1 %>,  !- Gross Rated Heating COP
   <%= fan_flow %>,         !- Rated Air Flow Rate {m^3/s}
@@ -2078,7 +2095,11 @@ Curve:Biquadratic,
 <% elsif (heat_coil_type == "DX-AIR" and dx_comp_speed_num > 1) %>
 Coil:Heating:DX:MultiSpeed,
   <%= unitary_name %> Heating Coil,  !- Name
-  ,                        !- Availability Schedule Name
+    <% if (epsems_enabled) %>
+      <%= control_zone_name %> Heating Avail Schedule, !- Availability Schedule Name
+    <% else %>
+      ,                        !- Availability Schedule Name
+    <% end %>
 <% if (fan_config == "DRAW-THROUGH" and cool_coil_type == "NONE") %>
   <%= unitary_name %> Unitary Inlet Node,  !- Air Inlet Node Name
 <% elsif (fan_config == "BLOW-THROUGH" and cool_coil_type == "NONE") %>
@@ -2773,7 +2794,11 @@ Curve:Biquadratic,
 <% elsif (heat_coil_type == "WATER") %>
 Coil:Heating:Water,
   <%= unitary_name %> Heating Coil,  !- Name
-  ,                        !- Availability Schedule Name
+    <% if (epsems_enabled) %>
+      <%= control_zone_name %> Heating Avail Schedule, !- Availability Schedule Name
+    <% else %>
+      ,                        !- Availability Schedule Name
+    <% end %>
   Autosize,                !- U-Factor Times Area Value {W/K}
   Autosize,                !- Maximum Water Flow Rate {m3/s}
   <%= unitary_name %> HeatCDemand Inlet Node,  !- Water Inlet Node Name
@@ -2853,7 +2878,11 @@ Branch,
 <% if (aux_heat_coil_type == "COMBUSTION") %>
 Coil:Heating:Fuel,
   <%= unitary_name %> Aux Heating Coil,  !- Name
-  ,                        !- Availability Schedule Name
+    <% if (epsems_enabled) %>
+      <%= control_zone_name %> Heating Avail Schedule, !- Availability Schedule Name
+    <% else %>
+      ,                        !- Availability Schedule Name
+    <% end %>
   <%= aux_heat_coil_fuel %>,  !- Fuel Type
   <%= aux_heat_coil_eff %>,  !- Gas Burner Efficiency
   <%= aux_heat_coil_cap %>,  !- Nominal Capacity {W}
@@ -2872,7 +2901,11 @@ Coil:Heating:Fuel,
 <% elsif (aux_heat_coil_type == "RESISTANCE") %>
 Coil:Heating:Electric,
   <%= unitary_name %> Aux Heating Coil,  !- Name
-  ,                        !- Availability Schedule Name
+    <% if (epsems_enabled) %>
+      <%= control_zone_name %> Heating Avail Schedule, !- Availability Schedule Name
+    <% else %>
+      ,                        !- Availability Schedule Name
+    <% end %>
   <%= aux_heat_coil_eff %>,  !- Efficiency
   <%= aux_heat_coil_cap %>,  !- Nominal Capacity {W}
 <% if (fan_config == "DRAW-THROUGH") %>

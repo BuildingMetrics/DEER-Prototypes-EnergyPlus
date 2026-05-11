@@ -1,0 +1,21 @@
+<%#INITIALIZE
+require "modelkit/energyplus"
+
+parameter "zone_name"
+parameter "main_hvac_type"
+%>
+
+Output:Variable,
+  <%= zone_name %> <%= main_hvac_type %>,        !- Key Value
+  Air System Outdoor Air Flow Fraction,  !- Variable Name
+  Timestep;                !- Reporting Frequency
+
+Output:Variable,
+  <%= zone_name %> <%= main_hvac_type %>,        !- Key Value
+  Air System Outdoor Air Mass Flow Rate,  !- Variable Name
+  Timestep;                !- Reporting Frequency
+
+Output:Variable,
+  <%= zone_name %>,              !- Key Value
+  Zone Predicted Sensible Load to Setpoint Heat Transfer Rate,  !- Variable Name
+  Timestep;                !- Reporting Frequency
