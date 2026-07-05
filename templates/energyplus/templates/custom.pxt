@@ -55,6 +55,15 @@ Output:Variable,
 Output:Meter,Electricity:Facility,hourly; !- [J]
 Output:Meter,Gas:Facility,hourly; !- [J]
 
+Output:Variable,*,Site Outdoor Air Drybulb Temperature,hourly; !- Zone Average [C]
+
+Output:Meter,Electricity:Facility,hourly; !- [J]
+Output:Meter,Gas:Facility,hourly; !- [J]
+
+Output:Variable,*,Unitary System Fan Part Load Ratio,hourly; !- HVAC Average []
+Output:Variable,*,Unitary System Compressor Part Load Ratio,hourly; !- HVAC Average []
+
+
 ! Zone
 !Output:Variable,Perimeter_ZN_1,Zone Mean Air Temperature,hourly; !- Zone Average [C]
 
@@ -75,7 +84,7 @@ Output:Meter,Gas:Facility,hourly; !- [J]
 
 !Output:Variable,<%= regex %> Schedule,Schedule Value,hourly; !- Zone Average []
 
-!Output:Variable,<%= regex %> Fan,Fan Electric Power,hourly; !- HVAC Average [W]
+Output:Variable,*,Fan Electric Power,hourly; !- HVAC Average [W]
 !Output:Variable,<%= regex %> Fan,Fan Runtime Fraction,hourly; !- HVAC Average []
 !Output:Variable,<%= regex %> Heating Coil,Heating Coil Heating Rate,hourly; !- HVAC Average [W]
 !Output:Variable,<%= regex %> Cooling Coil,Cooling Coil Total Cooling Rate,hourly; !- HVAC Average [W]

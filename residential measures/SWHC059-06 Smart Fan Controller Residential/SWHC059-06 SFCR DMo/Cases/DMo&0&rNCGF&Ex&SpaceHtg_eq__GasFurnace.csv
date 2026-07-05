@@ -1,0 +1,5 @@
+skip,:cool_type,:heat_type,:cooling_capacity,:heating_capacity,:air_flow,:shr,case_name,:burner_eff,:supplyfan_total_eff,:motor_eff,:hvac_type
+,NC,GF,,23446.7,0.661,,AFUE_80_baseline,0.8,0.12,0.24,unitary_system
+#,,,,,,,Msr-Res-GasFurnace-AFUE92-ECM,0.92,0.25,0.5,
+#,,,,,,,Msr-Res-GasFurnace-AFUE95-ECM,0.95,0.25,0.5,
+#,,,,,,,Msr-Res-GasFurnace-AFUE97-ECM,0.97,0.25,0.5,
