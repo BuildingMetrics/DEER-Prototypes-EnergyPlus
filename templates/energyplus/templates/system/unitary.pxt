@@ -1,7 +1,7 @@
 <%#INITIALIZE
 require "modelkit/energyplus"
 
-parameter "epsems_enabled"
+parameter "epsems_enabled", :default => false, :type => "Enumeration", :valuelist => "true,false"
 parameter "unitary_name"
 
 parameter "doas", :default => false

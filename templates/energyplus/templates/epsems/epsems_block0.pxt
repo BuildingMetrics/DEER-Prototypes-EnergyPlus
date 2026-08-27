@@ -1,0 +1,64 @@
+<%#INITIALIZE
+require "modelkit/energyplus"
+
+parameter "epsems_zones"
+parameter "main_hvac_type"
+parameter "main_oa_econ_max_temp"
+parameter "damper_closed_fraction"
+parameter "damper_open_fraction"
+parameter "occupied_mode_add"
+%>
+
+<%
+for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block1.pxt",
+        :zone_name => zone_name
+end
+for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block2.pxt",
+        :zone_name => zone_name
+end
+for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block3.pxt",
+        :zone_name => zone_name,
+        :main_hvac_type => main_hvac_type
+end
+insert "epsems/epsems_block4.pxt"
+for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block5.pxt",
+        :zone_name => zone_name,
+        :main_hvac_type => main_hvac_type
+end
+for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block6.pxt",
+        :zone_name => zone_name
+end
+for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block7.pxt",
+        :zone_name => zone_name
+end
+insert "epsems/epsems_block8.pxt"
+for zone in epsems_zones
+    zone_name = zone[0]
+
+    insert "epsems/epsems_block9.pxt",
+        :zone_name => zone_name,
+        :main_oa_econ_max_temp => main_oa_econ_max_temp,
+        :damper_closed_fraction => damper_closed_fraction,
+        :damper_open_fraction => damper_open_fraction,
+        :occupied_mode_add => occupied_mode_add
+end
+insert "epsems/epsems_block10.pxt"
+for zone in epsems_zones
+    zone_name = zone[0]
+    insert "epsems/epsems_block11.pxt",
+        :zone_name => zone_name,
+        :main_hvac_type => main_hvac_type
+end
+%>

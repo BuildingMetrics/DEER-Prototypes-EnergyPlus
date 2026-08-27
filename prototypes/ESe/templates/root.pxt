@@ -1,4 +1,12 @@
 <%#INTERFACE
+
+parameter "main_hvac_type", :default => "SZ_CAV"
+parameter "main_oa_econ_max_temp"
+parameter "damper_closed_fraction"
+parameter "damper_open_fraction"
+parameter "occupied_mode_add"
+parameter "epsems_enabled"
+
 import "general.pxt", :group => "general" do
   include "*"
   exclude "min*|max*|*convergence"
@@ -195,12 +203,14 @@ group "space_hvac" do
   end
 
   import "zonehvac/hvac-zone.pxt", :group => "classroom_class", :prefix => "classroom_class_" do
+    include "epsems_enabled"
     parameter "oa_area", :default => 0.38['CFM/ft2']
     parameter "exh_fan_flow_area", :default => 0['CFM/ft2']
     parameter "exh_fan_coupling", :default => FALSE
   end
 
   import "zonehvac/hvac-zone.pxt", :group => "gym", :prefix => "gym_" do
+    include "epsems_enabled"
     parameter "oa_area", :default => 0.5['CFM/ft2']
     parameter "exh_fan_flow_area", :default => 0['CFM/ft2']
     parameter "exh_fan_coupling", :default => FALSE
@@ -219,6 +229,7 @@ group "space_hvac" do
   end
 
   import "zonehvac/hvac-zone.pxt", :group => "dining_fast", :prefix => "dining_fast_" do
+    include "epsems_enabled"
     parameter "oa_area", :default => 0.5['CFM/ft2']
     parameter "exh_fan_flow_area", :default => 0['CFM/ft2']
     parameter "exh_fan_coupling", :default => FALSE
@@ -908,4 +919,29 @@ end
 
 insert "output.pxt"
 insert "custom.pxt"
+
+if (epsems_enabled)
+  epsems_zones = [
+    ["Classroom E1 West Perim (G.W1)"],
+    ["Classroom E2 North Perim (G.N3)"],
+    ["Classroom E2 South Perim (G.S2)"],
+    ["Classroom E2 West Perim (G.W1)"],
+    ["Gymnasium E17 West Perim (G.W1)"],
+    ["Dining E3 SW Perim (G.SW1)"],
+    ["Classroom E4 Core (G.C6)"],
+    ["Classroom E4 East Perim (G.E2)"],
+    ["Classroom E4 North Perim (G.N3)"],
+    ["Classroom E4 South Perim (G.S1)"],
+    ["Classroom E4 West Perim (G.W4)"],
+  ]
+
+  insert "epsems/epsems_block0.pxt",
+    :epsems_zones => epsems_zones,
+    :main_hvac_type => main_hvac_type,
+    :main_oa_econ_max_temp => main_oa_econ_max_temp,
+    :damper_closed_fraction => damper_closed_fraction,
+    :damper_open_fraction => damper_open_fraction,
+    :occupied_mode_add => occupied_mode_add
+
+end
 %>

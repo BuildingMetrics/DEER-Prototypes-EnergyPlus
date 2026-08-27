@@ -1,4 +1,12 @@
 <%#INTERFACE
+
+parameter "main_hvac_type", :default => "SZ_CAV"
+parameter "main_oa_econ_max_temp"
+parameter "damper_closed_fraction"
+parameter "damper_open_fraction"
+parameter "occupied_mode_add"
+parameter "epsems_enabled"
+
 import "general.pxt", :group => "general" do
   include "*"
   exclude "min*|max*|*convergence"
@@ -134,12 +142,14 @@ group "space_hvac" do
   end
 
   import "zonehvac/hvac-zone.pxt", :group => "office_large", :prefix => "office_large_" do
+    include "epsems_enabled"
     parameter "oa_area", :default => 0.15['CFM/ft2']
     parameter "exh_fan_flow_area", :default => 0['CFM/ft2']
     parameter "exh_fan_coupling", :default => FALSE
   end
 
   import "zonehvac/hvac-zone.pxt", :group => "auditorium", :prefix => "auditorium_" do
+    include "epsems_enabled"
     parameter "oa_area", :default => 1.07['CFM/ft2']
     parameter "exh_fan_flow_area", :default => 0['CFM/ft2']
     parameter "exh_fan_coupling", :default => FALSE
@@ -712,4 +722,22 @@ end
 
 insert "output.pxt"
 insert "custom.pxt"
+
+if (epsems_enabled)
+  epsems_zones = [
+    ["NE Corner Office"],
+    ["NW Corner Office"],
+    ["SE Corner Office"],
+    ["SW Corner Office"],
+    ["Core Auditorium"],
+  ]
+
+  insert "epsems/epsems_block0.pxt",
+    :epsems_zones => epsems_zones,
+    :main_hvac_type => main_hvac_type,
+    :main_oa_econ_max_temp => main_oa_econ_max_temp,
+    :damper_closed_fraction => damper_closed_fraction,
+    :damper_open_fraction => damper_open_fraction,
+    :occupied_mode_add => occupied_mode_add
+end
 %>
