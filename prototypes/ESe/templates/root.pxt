@@ -5,7 +5,7 @@ parameter "main_oa_econ_max_temp"
 parameter "damper_closed_fraction"
 parameter "damper_open_fraction"
 parameter "occupied_mode_add"
-parameter "epsems_enabled"
+parameter "epsems_enabled", :default=> false, :type => "Enumeration", :valuelist => "true,false"
 
 import "general.pxt", :group => "general" do
   include "*"
@@ -217,12 +217,14 @@ group "space_hvac" do
   end
 
   import "zonehvac/hvac-zone.pxt", :group => "kitchen", :prefix => "kitchen_" do
+    include "epsems_enabled"
     parameter "oa_area", :default => 0.15['CFM/ft2']
     parameter "exh_fan_flow_area", :default => 0.7['CFM/ft2']
     parameter "exh_fan_coupling", :default => FALSE
   end
 
   import "zonehvac/hvac-zone.pxt", :group => "computer", :prefix => "computer_" do
+    include "epsems_enabled"
     parameter "oa_area", :default => 0.15['CFM/ft2']
     parameter "exh_fan_flow_area", :default => 0['CFM/ft2']
     parameter "exh_fan_coupling", :default => FALSE
