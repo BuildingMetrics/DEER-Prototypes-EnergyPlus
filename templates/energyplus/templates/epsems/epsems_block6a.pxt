@@ -1,0 +1,11 @@
+<%#INITIALIZE
+require "modelkit/energyplus"
+
+parameter "zone_name"
+%>
+
+EnergyManagementSystem:GlobalVariable,
+  OA_Frac_Out_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>;
+
+EnergyManagementSystem:GlobalVariable,
+  DesignMinFrac_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>;

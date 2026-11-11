@@ -9,3 +9,6 @@ EnergyManagementSystem:GlobalVariable,
 
 EnergyManagementSystem:GlobalVariable,
   DesignMinFrac_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>;
+  
+EnergyManagementSystem:GlobalVariable,
+  Econ_Status_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>;

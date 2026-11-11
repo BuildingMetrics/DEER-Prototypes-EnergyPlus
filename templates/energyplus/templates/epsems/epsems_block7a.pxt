@@ -1,0 +1,27 @@
+<%#INITIALIZE
+require "modelkit/energyplus"
+
+parameter "zone_name"
+%>
+
+EnergyManagementSystem:OutputVariable,
+  EMS OA Fraction <%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- Name
+  OA_Frac_Out_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- EMS Variable Name
+  Averaged,                !- Type of Data in Variable
+  ZoneTimeStep;            !- Update Frequency
+
+Output:Variable,
+  *,                       !- Key Value
+  EMS OA Fraction <%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- Variable Name
+  Timestep;                !- Reporting Frequency
+
+EnergyManagementSystem:OutputVariable,
+  EMS Design Min Frac <%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- Name
+  DesignMinFrac_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- EMS Variable Name
+  Averaged,                !- Type of Data in Variable
+  ZoneTimeStep;            !- Update Frequency
+
+Output:Variable,
+  *,                       !- Key Value
+  EMS Design Min Frac <%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- Variable Name
+  Timestep;                !- Reporting Frequency

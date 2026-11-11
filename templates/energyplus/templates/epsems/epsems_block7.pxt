@@ -25,3 +25,14 @@ Output:Variable,
   *,                       !- Key Value
   EMS Design Min Frac <%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- Variable Name
   Timestep;                !- Reporting Frequency
+  
+EnergyManagementSystem:OutputVariable,
+  EMS Econ Status <%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- Name
+  Econ_Status_<%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- EMS Variable Name
+  Averaged,                !- Type of Data in Variable
+  ZoneTimeStep;            !- Update Frequency
+
+Output:Variable,
+  *,                       !- Key Value
+  EMS Econ Status <%= ((zone_name.split(" ")).join("_")).delete("\.()") %>,  !- Variable Name
+  Timestep;                !- Reporting Frequency
